@@ -1,0 +1,8 @@
+.venv
+.idea
+*.pyc
+*.pyo
+__pycache__/*
+exercise/__pycache__/*
+game_stats/__pycache__/*
+/exercise/secrets.py
