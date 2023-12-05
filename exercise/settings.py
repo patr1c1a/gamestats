@@ -80,9 +80,9 @@ WSGI_APPLICATION = "exercise.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': secrets.MYSQL_DATABASE,
-        'USER': secrets.MYSQL_USER,
-        'PASSWORD': secrets.MYSQL_PASSWORD,
+        'NAME': secrets.mysql_database,
+        'USER': secrets.mysql_user,
+        'PASSWORD': secrets.mysql_password,
         'HOST': 'db',
         'PORT': '3306',
         'OPTIONS': {
