@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: /run/secrets/mysql_database
+      MYSQL_USER: /run/secrets/mysql_user
+      MYSQL_PASSWORD: /run/secrets/mysql_password
+      MYSQL_ROOT_PASSWORD: /run/secrets/mysql_root_password
+    secrets:
+      - mysql_root_password
+      - mysql_database
+      - mysql_user
+      - mysql_password
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+
+secrets:
+  mysql_root_password:
+    file: ./my_project/exercise/secrets.py
+  mysql_database:
+    file: ./my_project/exercise/secrets.py
+  mysql_user:
+    file: ./my_project/exercise/secrets.py
+  mysql_password:
+    file: ./my_project/exercise/secrets.py
+
+
+volumes:
+  my-db:
