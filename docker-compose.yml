@@ -23,13 +23,13 @@ services:
 
 secrets:
   mysql_root_password:
-    file: ./my_project/exercise/secrets.py
+    file: ./exercise/secrets.py
   mysql_database:
-    file: ./my_project/exercise/secrets.py
+    file: ./exercise/secrets.py
   mysql_user:
-    file: ./my_project/exercise/secrets.py
+    file: ./exercise/secrets.py
   mysql_password:
-    file: ./my_project/exercise/secrets.py
+    file: ./exercise/secrets.py
 
 
 volumes:
