@@ -21,6 +21,11 @@ services:
     volumes:
       - my-db:/var/lib/mysql
 
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+
 secrets:
   mysql_root_password:
     file: ./exercise/secrets.py
