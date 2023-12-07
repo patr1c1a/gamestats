@@ -10,7 +10,12 @@ app.autodiscover_tasks()
 # Periodic task
 app.conf.beat_schedule = {
     'run-simulate-stats-periodically': {
-        'task': 'exercise.tasks.simulate_stats_task',
-        'schedule': crontab(minute='*/5'),
+        'task': 'game_stats.tasks.simulate_stats_task',
+        'schedule': crontab(minute='*/1'),
     },
 }
+
+
+@app.task(bind=True, ignore_result=True)
+def debug_task(self):
+    print(f'Request: {self.request!r}')
