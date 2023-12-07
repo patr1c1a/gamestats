@@ -2,6 +2,7 @@
 .idea
 *.pyc
 *.pyo
+celerybeat-schedule.*
 /__pycache__/*
 /exercise/__pycache__/*
 /game_stats/__pycache__/*
