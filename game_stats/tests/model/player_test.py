@@ -1,4 +1,3 @@
-from MySQLdb._mysql import IntegrityError
 from django.test import TestCase
 from game_stats.models import Player
 from django.core.exceptions import ValidationError

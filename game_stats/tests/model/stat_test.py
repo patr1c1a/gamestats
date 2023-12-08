@@ -1,7 +1,5 @@
-from MySQLdb._mysql import IntegrityError
 from django.test import TestCase
 from game_stats.models import Stat, Player
-from django.core.exceptions import ValidationError
 
 
 class StatModelTest(TestCase):
