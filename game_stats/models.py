@@ -1,7 +1,6 @@
 from django.utils import timezone
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
 
 
 class Player(models.Model):
@@ -21,7 +20,7 @@ class Stat(models.Model):
     """
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
-    score = models.PositiveIntegerField()
+    score = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"(ID: {self.pk}). PLAYER: {self.player.nickname}. SCORE: {self.score}. CREATED: {self.creation_date}."
