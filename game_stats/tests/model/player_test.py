@@ -46,3 +46,17 @@ class PlayerModelTest(TestCase):
 		with self.assertRaises(ValidationError) as context:
 			player.full_clean()
 		self.assertIn('nickname', context.exception.error_dict)
+
+	def test_player_invalid_nickname(self):
+		"""
+	    Tests that a Player nickname can only contain letters, numbers and underscores.
+		"""
+		player = Player(nickname="test player")
+
+		with self.assertRaises(ValidationError) as context:
+			player.save()
+
+		self.assertIn(
+			"Nickname can only contain letters, numbers and underscores.",
+			context.exception.messages,
+		)
