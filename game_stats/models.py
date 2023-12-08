@@ -10,6 +10,12 @@ class Player(models.Model):
     nickname = models.CharField(max_length=255)
     profile_image = models.URLField(null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        # Check that nickname only contains alphanumeric or underscore characters.
+        if not (str(self.nickname).replace('_', '').isalnum()) or not (str(self.nickname).isascii()):
+            raise ValidationError("Nickname can only contain letters, numbers and underscores.")
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"(ID: {self.pk}). NICKNAME: {self.nickname}. AVATAR: {self.profile_image}"
 
