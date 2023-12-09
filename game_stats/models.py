@@ -1,4 +1,3 @@
-from django.utils import timezone
 from django.db import models
 from django.core.exceptions import ValidationError
 
@@ -26,13 +25,6 @@ class Game(models.Model):
     """
     players = models.ManyToManyField(Player, related_name='players')
     winner = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True)
-
-    def save(self, *args, **kwargs):
-        # Check if the winner is in the list of players after the instance is saved
-        if self.winner and self.winner not in self.players.all():
-            raise ValidationError({
-                'winner': ValidationError('Winner must be in the players list.', code='invalid'),
-            })
 
     def __str__(self):
         winner = self.winner.nickname if self.winner else 'No winner.'

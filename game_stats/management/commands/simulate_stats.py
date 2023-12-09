@@ -10,39 +10,38 @@ class Command(BaseCommand):
     Simulates random Stats, Games, and Players and insert into database.
     """
 
-    help = "Simulate random Stats, Games, and Players and insert into database."
+    help = "Simulate random Stats, Games, and Players and insert into the database."
 
     def handle(self, *args, **options):
         """
         Handles the command execution.
-        Generates random data for Player, Stat and Game models and inserts it into the database.
+        Generates random data for Player, Stat, and Game models and inserts it into the database.
         """
         try:
-            self.stdout.write(self.style.SUCCESS('Simulating statistics, games, and players...'))
+            print(self.style.SUCCESS('Simulating statistics, games, and players...'))
 
-            # simulate Game data
+            # simulate Player data
             players = self.generate_random_players()
-            game_start = timezone.now()
-            game_finish = game_start + timezone.timedelta(minutes=random.randint(10, 120))
-            winner = random.choice(players) if players else None
-
-            game = Game.objects.create(start_timestamp=game_start, finish_timestamp=game_finish, winner=winner)
-            game.players.set(players)
-
             for player in players:
-                # simulate Player data
                 player_data = self.generate_random_player_data()
                 player.nickname = player_data['nickname']
                 player.profile_image = player_data['profile_image']
                 player.save()
 
-                # simulate Stat data
-                Stat.objects.create(player=player, creation_date=timezone.now(), score=random.randint(1, 100))
+            # simulate Game data
+            winner = random.choice(players) if players else None
+            game = Game()
+            game.save()
+            game.players.set(players)
+            game.winner = winner
 
-            self.stdout.write(self.style.SUCCESS('Statistics, games, and players simulation completed.'))
+            # simulate Stat data
+            Stat.objects.create(player=player, creation_date=timezone.now(), score=random.randint(0, 100), game=game)
+
+            print(self.style.SUCCESS('Statistics, games, and players simulation completed.'))
 
         except Exception as e:
-            self.stderr.write(self.style.ERROR(f'An error occurred: {str(e)}'))
+            print(self.style.ERROR(f'An error occurred: {str(e)}'))
 
     def generate_random_player_data(self) -> dict:
         """
