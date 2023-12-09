@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'mysql db name'  # replace with your database name
+      MYSQL_USER: 'mysql username'  # replace with your username
+      MYSQL_PASSWORD: 'mysql password'  # replace with your password
+      MYSQL_ROOT_PASSWORD: 'mysql root password'  # replace with your root password
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+
+volumes:
+  my-db:

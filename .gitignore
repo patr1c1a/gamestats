@@ -7,3 +7,5 @@ celerybeat-schedule.*
 /exercise/__pycache__/*
 /game_stats/__pycache__/*
 /exercise/secrets.py
+docker-compose.yml
+init.sql
