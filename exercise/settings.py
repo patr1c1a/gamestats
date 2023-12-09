@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "game_stats",
     "django_celery_beat",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,20 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
 CELERYD_REDIRECT_STDOUTS_LEVEL = DEBUG  # don't run with debug level in production!
+
+# Swagger documentation (drf_spectacular package) settings:
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Game stats',
+    'DESCRIPTION': 'Game stats for players',
+    'VERSION': '1.0.0',
+    'SCHEMA_PATH_PREFIX': '/game_stats',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_SETTINGS': {
+        'persistAuthorization': True,
+        'docExpansion': 'none',
+    },
+}
