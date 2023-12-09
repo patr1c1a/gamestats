@@ -152,6 +152,8 @@ http://localhost:8000/stats?page=3).
 
 * `/stats/{id}/`: GET, PUT, PATCH, DELETE (E.g.: http://localhost:8000/stats/21)
 
+* `/stats/ranking/`: GET (E.g.: http://localhost:8000/stats/ranking/). Shows the 10 best scores of all time.
+
 
 ### Resources
 
