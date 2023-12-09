@@ -18,24 +18,6 @@ class PlayerSerializer(serializers.ModelSerializer):
         return value
 
 
-class StatSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Stat
-        fields = "__all__"
-
-    def to_representation(self, instance):
-        """
-        Overrides the `to_representation` method to display the whole object for the
-        `player` field instead of just the primary key by mapping the field to its serialized value.
-        Also shows date in the "%Y-%m-%d %H:%M:%S" format.
-        """
-        representation = super().to_representation(instance)
-        representation["player"] = PlayerSerializer(instance.player).data
-        creation_date = instance.creation_date.strftime("%Y-%m-%d %H:%M:%S")
-        representation["creation_date"] = creation_date
-        return representation
-
-
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
@@ -45,7 +27,6 @@ class GameSerializer(serializers.ModelSerializer):
         """
         Overrides the `to_representation` method to display the whole object for the
         `winner` field instead of just the primary key by mapping the field to its serialized value.
-        Also shows timestamps in the "%Y-%m-%d %H:%M:%S" format.
         """
         representation = super().to_representation(instance)
 
@@ -61,10 +42,28 @@ class GameSerializer(serializers.ModelSerializer):
         else:
             representation["winner"] = None
 
-        start_timestamp = instance.start_timestamp.strftime("%Y-%m-%d %H:%M:%S")
-        representation["start_timestamp"] = start_timestamp
+        return representation
 
-        finish_timestamp = instance.finish_timestamp.strftime("%Y-%m-%d %H:%M:%S")
-        representation["finish_timestamp"] = finish_timestamp
+
+class StatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Stat
+        fields = "__all__"
+
+    def to_representation(self, instance):
+        """
+        Overrides the `to_representation` method to display the whole objects for the
+        `player` and `game` fields instead of just the primary key by mapping the field
+        to its serialized value. Also shows creation_date in the "%Y-%m-%d %H:%M:%S" format.
+        """
+        representation = super().to_representation(instance)
+
+        representation["player"] = PlayerSerializer(instance.player).data
+
+        creation_date = instance.creation_date.strftime("%Y-%m-%d %H:%M:%S")
+        representation["creation_date"] = creation_date
+
+        representation["game"] = GameSerializer(instance.game).data
 
         return representation
+
