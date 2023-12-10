@@ -22,11 +22,6 @@ class Command(BaseCommand):
 
             # simulate Player data
             players = self.generate_random_players()
-            for player in players:
-                player_data = self.generate_random_player_data()
-                player.nickname = player_data['nickname']
-                player.profile_image = player_data['profile_image']
-                player.save()
 
             # simulate Game data
             winner = random.choice(players) if players else None
@@ -36,7 +31,11 @@ class Command(BaseCommand):
             game.winner = winner
 
             # simulate Stat data
-            Stat.objects.create(player=player, creation_date=timezone.now(), score=random.randint(0, 100), game=game)
+            Stat.objects.create(
+                player=random.choice(players),
+                creation_date=timezone.now(),
+                score=random.randint(0, 100),
+                game=game)
 
             print(self.style.SUCCESS('Statistics, games, and players simulation completed.'))
 
