@@ -172,6 +172,7 @@ http://localhost:8000/stats?page=3).
 * `nickname`: Player nickname (e.g.: "test_user") that can only contain letters, numbers or underscores. Required field.
 * `profile_image`: An URL containing a profile image (avatar) of the player. Optional field.
 
+
 2. Game (endpoint: **/games/**)
 
 * `id`: Autonumeric field that represents the primary key in the database. Read-only field.
@@ -181,7 +182,8 @@ http://localhost:8000/stats?page=3).
 3. Stat (endpoint: **/stats/**)
 
 * `id`: Autonumeric field that represents the primary key in the database. Read-only field.
-* `player`: The player associated to the stat. A foreign key to the *Player* model. Required field.
+* `player`: The player associated to the stat. A foreign key to the *Player* model. Must be included in the player's 
+list of the *game* field. Required field.
 * `creation_date`: Date of card creation. Automatically defaults to the current date of entry. Read-only field.
 * `score`: The score obtained by the player. Must be a positive number. Optional field.
 * `game`: The game associated to the stat. A foreign key to the *Game* model. Optional field.
