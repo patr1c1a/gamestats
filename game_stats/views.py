@@ -3,6 +3,9 @@ from .models import Player, Stat, Game
 from .serializers import PlayerSerializer, StatSerializer, GameSerializer
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from django.shortcuts import render
 
 
 class CustomPagination(PageNumberPagination):
@@ -38,6 +41,23 @@ class PlayerDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PlayerSerializer
 
 
+class GameList(generics.ListCreateAPIView):
+    """
+    API endpoint that allows games to be viewed or created.
+    """
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+    pagination_class = CustomPagination
+
+
+class GameDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API endpoint that allows a single game to be viewed, updated, or deleted.
+    """
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+
+
 class StatList(generics.ListCreateAPIView):
     """
     API endpoint that allows stats to be viewed or created.
@@ -55,18 +75,28 @@ class StatDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StatSerializer
 
 
-class GameList(generics.ListCreateAPIView):
-    """
-    API endpoint that allows games to be viewed or created.
-    """
-    queryset = Game.objects.all()
-    serializer_class = GameSerializer
-    pagination_class = CustomPagination
+def get_top_scores():
+    top_scores = Stat.objects.order_by('-score')[:10]
+    serializer = StatSerializer(top_scores, many=True)
+    return serializer.data
 
 
-class GameDetail(generics.RetrieveUpdateDestroyAPIView):
+class StatRankingView(APIView):
     """
-    API endpoint that allows a single game to be viewed, updated, or deleted.
+    API endpoint that retrieves Stats with the highest 10 scores.
     """
-    queryset = Game.objects.all()
-    serializer_class = GameSerializer
+    def get(self, request):
+        data = get_top_scores()
+        return Response(data, status=status.HTTP_200_OK)
+
+
+class RankingView(APIView):
+    """
+    View for the HTML report.
+    """
+    template_name = 'report.html'
+
+    def get(self, request):
+        data = get_top_scores()
+        context = {'ranking_data': data}
+        return render(request, self.template_name, context)
