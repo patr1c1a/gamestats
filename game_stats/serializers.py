@@ -9,7 +9,7 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     def validate_nickname(self, value):
         """
-        Validate that the nickname only contains letters, numbers and underscores.
+        Validates that the nickname only contains letters, numbers and underscores.
         """
         if not (value.replace("_", "").isalnum()) or not (value.isascii()):
             raise serializers.ValidationError(
@@ -23,25 +23,32 @@ class GameSerializer(serializers.ModelSerializer):
         model = Game
         fields = "__all__"
 
+    def validate(self, data):
+        """
+        Validates that the winner is included in the "players" list.
+        """
+        players = data['players']
+        winner = data['winner'] if 'winner' in data else None
+        if winner and winner not in players:
+            raise serializers.ValidationError("Winner must be included in the players list.")
+        return data
+
     def to_representation(self, instance):
         """
         Overrides the `to_representation` method to display the whole object for the
         `winner` field instead of just the primary key by mapping the field to its serialized value.
         """
         representation = super().to_representation(instance)
-
         players_instances = instance.players.all()
         if players_instances:
             representation["players"] = [PlayerSerializer(player).data for player in players_instances]
         else:
             representation["players"] = []
-
         winner_instance = instance.winner
         if winner_instance is not None:
             representation["winner"] = PlayerSerializer(winner_instance).data
         else:
             representation["winner"] = None
-
         return representation
 
 
@@ -50,6 +57,16 @@ class StatSerializer(serializers.ModelSerializer):
         model = Stat
         fields = "__all__"
 
+    def validate(self, data):
+        """
+        Validates that the player is included in the Game.
+        """
+        player = data['player']
+        game = data['game'] if 'game' in data else None
+        if game and player not in game.players.all():
+            raise serializers.ValidationError("Player must be included in the game's players list.")
+        return data
+
     def to_representation(self, instance):
         """
         Overrides the `to_representation` method to display the whole objects for the
@@ -57,13 +74,8 @@ class StatSerializer(serializers.ModelSerializer):
         to its serialized value. Also shows creation_date in the "%Y-%m-%d %H:%M:%S" format.
         """
         representation = super().to_representation(instance)
-
         representation["player"] = PlayerSerializer(instance.player).data
-
         creation_date = instance.creation_date.strftime("%Y-%m-%d %H:%M:%S")
         representation["creation_date"] = creation_date
-
         representation["game"] = GameSerializer(instance.game).data
-
         return representation
-
