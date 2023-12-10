@@ -3,6 +3,7 @@ import requests
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from game_stats.models import Player, Stat, Game
+from django.db import transaction
 
 
 class Command(BaseCommand):
@@ -17,31 +18,32 @@ class Command(BaseCommand):
         Handles the command execution.
         Generates random data for Player, Stat, and Game models and inserts it into the database.
         """
-        try:
-            print(self.style.SUCCESS('Simulating statistics, games, and players...'))
+        with transaction.atomic():
+            try:
+                print(self.style.SUCCESS('Simulating statistics, games, and players...'))
 
-            # simulate Player data
-            players = self.generate_random_players()
+                # simulate Player data
+                players = self.generate_random_players()
 
-            # simulate Game data
-            winner = random.choice(players) if players else None
-            game = Game()
-            game.save()
-            game.players.set(players)
-            game.winner = winner
-            game.save()
+                # simulate Game data
+                winner = random.choice(players) if players else None
+                game = Game()
+                game.save()
+                game.players.set(players)
+                game.winner = winner
+                game.save()
 
-            # simulate Stat data
-            Stat.objects.create(
-                player=random.choice(players),
-                creation_date=timezone.now(),
-                score=random.randint(0, 100),
-                game=game)
+                # simulate Stat data
+                Stat.objects.create(
+                    player=random.choice(players),
+                    creation_date=timezone.now(),
+                    score=random.randint(0, 100),
+                    game=game)
 
-            print(self.style.SUCCESS('Statistics, games, and players simulation completed.'))
+                print(self.style.SUCCESS('Statistics, games, and players simulation completed.'))
 
-        except Exception as e:
-            print(self.style.ERROR(f'An error occurred: {str(e)}'))
+            except Exception as e:
+                print(self.style.ERROR(f'An error occurred: {str(e)}'))
 
     def generate_random_player_data(self) -> dict:
         """
