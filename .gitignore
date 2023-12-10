@@ -9,3 +9,4 @@ celerybeat-schedule.*
 /exercise/secrets.py
 docker-compose.yml
 init.sql
+/staticfiles/
