@@ -29,6 +29,7 @@ class Command(BaseCommand):
             game.save()
             game.players.set(players)
             game.winner = winner
+            game.save()
 
             # simulate Stat data
             Stat.objects.create(
