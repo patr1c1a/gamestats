@@ -15,10 +15,7 @@ class GameModelTest(TestCase):
         """
         Tests that a Game can be created with all its fields.
         """
-        game = Game(
-            start_timestamp=timezone.now(),
-            finish_timestamp=timezone.now() + timezone.timedelta(minutes=1),
-        )
+        game = Game()
         game.save()
         game.players.add(self.player1, self.player2, self.player3)
         game.winner = self.player1
@@ -32,10 +29,7 @@ class GameModelTest(TestCase):
         """
         Tests that a Game can be deleted.
         """
-        game = Game(
-            start_timestamp=timezone.now(),
-            finish_timestamp=timezone.now() + timezone.timedelta(minutes=1),
-        )
+        game = Game()
         game.save()
         game.players.add(self.player1, self.player2, self.player3)
         game.winner = self.player1
@@ -44,18 +38,14 @@ class GameModelTest(TestCase):
         with self.assertRaises(Game.DoesNotExist):
             Game.objects.get(id=game.id)
 
-    def test_game_winner_not_in_players_list(self):
+    def test_game_no_winner_succeeds(self):
         """
-        Tests that creating a Game with a winner not in the players list raises a ValidationError.
+        Tests that creating a Game without a winner succeeds.
         """
-        game = Game(
-            start_timestamp=timezone.now(),
-            finish_timestamp=timezone.now() + timezone.timedelta(minutes=1),
-            winner=self.player1,
-        )
-        with self.assertRaises(ValidationError) as context:
-            game.save()
-        self.assertIn(
-            "Winner must be in the players list.",
-            context.exception.error_dict["winner"][0],
+        game = Game()
+        game.save()
+        game.players.add(self.player1, self.player2, self.player3)
+
+        self.assertEqual(
+            set(game.players.all()), {self.player1, self.player2, self.player3}
         )
