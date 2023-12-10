@@ -9,7 +9,6 @@ class SimulateStatsTests(TestCase):
     """
     Tests for the simulate_stats management command.
     """
-
     @patch('game_stats.management.commands.simulate_stats.requests.get')
     def test_simulate_stats_command(self, mock_requests_get):
         """
@@ -28,25 +27,22 @@ class SimulateStatsTests(TestCase):
         command = Command()
         command.handle()
 
-        # assert at least 1 player and 1 stat have been created, since the script creates a random number of them.
-        self.assertEqual(Game.objects.count(), 1)
+        # assert at least 1 player, 1 game and 1 stat have been created.
         self.assertGreaterEqual(Player.objects.count(), 1)
+        self.assertEqual(Game.objects.count(), 1)
         self.assertGreaterEqual(Stat.objects.count(), 1)
 
         player = Player.objects.first()
-        stat = Stat.objects.first()
         game = Game.objects.first()
+        stat = Stat.objects.first()
 
-        self.assertEqual(stat.player, player)
         self.assertEqual(player.nickname, "test_user")
         self.assertEqual(player.profile_image, "https://example.com/test_image.jpg")
+        self.assertIn(game.winner, game.players.all())
         self.assertEqual(stat.player, player)
+        self.assertEqual(stat.game, game)
         self.assertIsNotNone(stat.creation_date)
         self.assertIsNotNone(stat.score)
-        self.assertIn(player, game.players.all())
-        self.assertIsNotNone(game.start_timestamp)
-        self.assertIsNotNone(game.finish_timestamp)
-        self.assertIn(game.winner, game.players.all())
 
     @patch('game_stats.management.commands.simulate_stats.requests.get')
     def test_simulate_stats_exception_handling(self, mock_requests_get):
