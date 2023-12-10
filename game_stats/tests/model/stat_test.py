@@ -1,11 +1,13 @@
 from django.test import TestCase
-from game_stats.models import Stat, Player
+from game_stats.models import Stat, Player, Game
 
 
 class StatModelTest(TestCase):
 	def setUp(self):
 		# Create a Player to associate Stat to
 		self.player = Player.objects.create(nickname="test_player")
+		self.game = Game.objects.create()
+		self.game.players.add(self.player)
 
 	def test_stat_creation(self):
 		"""
@@ -13,10 +15,12 @@ class StatModelTest(TestCase):
 		"""
 		stat = Stat.objects.create(
 			player=self.player,
-			score=10
+			score=10,
+			game=self.game
 		)
 		self.assertEqual(stat.player.nickname, "test_player")
 		self.assertEqual(stat.score, 10)
+		self.assertEqual(stat.game, self.game)
 
 	def test_delete_stat(self):
 		"""
@@ -24,7 +28,8 @@ class StatModelTest(TestCase):
 		"""
 		stat = Stat.objects.create(
 			player=self.player,
-			score=10
+			score=10,
+			game=self.game
 		)
 		stat.delete()
 		with self.assertRaises(Stat.DoesNotExist):
