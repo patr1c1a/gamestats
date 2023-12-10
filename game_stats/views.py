@@ -5,6 +5,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from django.shortcuts import render
 
 
 class CustomPagination(PageNumberPagination):
@@ -74,11 +75,28 @@ class StatDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StatSerializer
 
 
+def get_top_scores():
+    top_scores = Stat.objects.order_by('-score')[:10]
+    serializer = StatSerializer(top_scores, many=True)
+    return serializer.data
+
+
 class StatRankingView(APIView):
     """
     API endpoint that retrieves Stats with the highest 10 scores.
     """
     def get(self, request):
-        top_scores = Stat.objects.order_by('-score')[:10]
-        serializer = StatSerializer(top_scores, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        data = get_top_scores()
+        return Response(data, status=status.HTTP_200_OK)
+
+
+class RankingView(APIView):
+    """
+    View for the HTML report.
+    """
+    template_name = 'report.html'
+
+    def get(self, request):
+        data = get_top_scores()
+        context = {'ranking_data': data}
+        return render(request, self.template_name, context)

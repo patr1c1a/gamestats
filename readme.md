@@ -14,8 +14,6 @@ purposes.
 ### Prerequisites
 
 -   Python 3.x
--   pip
-
 
 
 ### Installing
@@ -32,13 +30,7 @@ purposes.
 `Rename ./docker_compose_template.yml` into `./docker_compose.yml`
 `Rename ./init_template.sql` into `./init.sql`
 
-
-5.  Create a Django secret key and paste it in `pokemon/secrets.py`, as the SECRET_KEY value, replacing 
-`your Django secret key here` with it: 
-
-`python manage.py shell -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`
-
-6. Replace with your desired values in the following files:
+5. Replace with your desired values in the following files:
 
 `./exercise/secrets.py`, `./docker_compose.yml` and `./init.sql`
 
@@ -50,12 +42,23 @@ mysql_user
 mysql_password
 ```
 
+
+6.  Create a Django secret key and paste it in `exercise/secrets.py`, as the SECRET_KEY value, replacing 
+`your Django secret key here` with it: 
+
+`python manage.py shell -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`
+
+
 7. Run the docker container:
 `docker-compose up -d --build`
 
 
 8. Apply migrations:
 `python manage.py migrate`
+
+
+9. Generate static files
+`python manage.py collectstatic`
 
 
 
@@ -94,8 +97,6 @@ is started as part of the Docker container initialization.
 
 
 
-
-
 Access the API
 --------------
 
@@ -103,7 +104,7 @@ Run the server:
 
 `python manage.py runserver`
 
-The app should now be accessible at <http://localhost:8000> (unless a different port is specified).
+The app should now be accessible at http://localhost:8000 (unless a different port is specified).
 
 
 ### Django admin console
@@ -112,15 +113,22 @@ First add a super user:
 
 `python manage.py createsuperuser`
 
-And select the user name and password of your preference.
+and select the user name and password of your preference.
 
-Once the server is running, an admimn console UI will be available through http://localhost:8000/admin/
+Once the server is running, an admimn console UI will be available through /admin/ (e.g.: http://localhost:8000/admin/).
 
 
 
 ### REST Client (e.g.: Postman)
 
 See the _Endpoints_ section.
+
+
+### HTML report for top 10 scores
+
+View /ranking/ (e.g.: http://localhost:8000/ranking/). Stats will refresh every 10 seconds.
+
+Optionally, this page includes a button to download this report as a csv file. 
 
 
 
@@ -130,27 +138,28 @@ Endpoints
 Swagger documentation is available at http://localhost:8000/game_stats/schema/swagger-ui/ (project must be running) 
 and a downloadable yaml file is available at http://localhost:8000/game_stats/schema/.
 
+
 ### Overview
 
 Pagination is enabled (defaults to 10 items per page). 
 
-* `/players/`: GET, POST. (E.g.: http://localhost:8000/players/)
-To use pagination, add: `?page=X` (where X is the page number) as a parameter (E.g.: 
+* `/players/`: GET, POST. (e.g.: http://localhost:8000/players/)
+To use pagination, add: `?page=X` (where X is the page number) as a parameter (e.g.: 
 http://localhost:8000/players?page=3).
 
-* `/players/{id}/`: GET, PUT, PATCH, DELETE (E.g.: http://localhost:8000/players/21)
+* `/players/{id}/`: GET, PUT, PATCH, DELETE (e.g.: http://localhost:8000/players/21)
 
-* `/games/`: GET, POST. (E.g.: http://localhost:8000/games/)
-To use pagination, add: `?page=X` (where X is the page number) as a parameter (E.g.: 
+* `/games/`: GET, POST. (e.g.: http://localhost:8000/games/)
+To use pagination, add: `?page=X` (where X is the page number) as a parameter (e.g.: 
 http://localhost:8000/games?page=3).
 
-* `/games/{id}/`: GET, PUT, PATCH, DELETE (E.g.: http://localhost:8000/games/21)
+* `/games/{id}/`: GET, PUT, PATCH, DELETE (e.g.: http://localhost:8000/games/21)
 
-* `/stats/`: GET, POST. (E.g.: http://localhost:8000/stats/)
-To use pagination, add: `?page=X` (where X is the page number) as a parameter (E.g.: 
+* `/stats/`: GET, POST. (e.g.: http://localhost:8000/stats/)
+To use pagination, add: `?page=X` (where X is the page number) as a parameter (e.g.: 
 http://localhost:8000/stats?page=3).
 
-* `/stats/{id}/`: GET, PUT, PATCH, DELETE (E.g.: http://localhost:8000/stats/21)
+* `/stats/{id}/`: GET, PUT, PATCH, DELETE (e.g.: http://localhost:8000/stats/21)
 
 * `/stats/ranking/`: GET (E.g.: http://localhost:8000/stats/ranking/). Shows the 10 best scores of all time.
 

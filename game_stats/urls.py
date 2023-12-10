@@ -3,13 +3,14 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from game_stats.views import *
 
 urlpatterns = [
-   path("players/", PlayerList.as_view()),
-   path("players/<int:pk>/", PlayerDetail.as_view()),
-   path("stats/", StatList.as_view()),
-   path("stats/<int:pk>/", StatDetail.as_view()),
-   path("games/", GameList.as_view()),
-   path("games/<int:pk>/", GameDetail.as_view()),
-   path("stats/ranking/", StatRankingView.as_view(), name='stat-ranking'),
+   path("players/", PlayerList.as_view(), name="player-list"),
+   path("players/<int:pk>/", PlayerDetail.as_view(), name="player-by-id"),
+   path("stats/", StatList.as_view(), name="stat-list"),
+   path("stats/<int:pk>/", StatDetail.as_view(), name="stat-by-id"),
+   path("games/", GameList.as_view(), name="game-list"),
+   path("games/<int:pk>/", GameDetail.as_view(), name="game-by-id"),
+   path("stats/ranking/", StatRankingView.as_view(), name="stat-ranking-api"),
+   path("ranking/", RankingView.as_view(), name="stat-ranking-html"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
