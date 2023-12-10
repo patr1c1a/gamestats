@@ -27,8 +27,10 @@ purposes.
 4. Rename files that hold sensitive data (remove _"\_template"_ from the file name):
 
 `./exercise/secrets_template.py` into `./exercise/secrets.py`
-`Rename ./docker_compose_template.yml` into `./docker_compose.yml`
-`Rename ./init_template.sql` into `./init.sql`
+
+`./docker_compose_template.yml` into `./docker_compose.yml`
+
+`./init_template.sql` into `./init.sql`
 
 5. Replace with your desired values in the following files:
 
@@ -87,9 +89,6 @@ To run the previous script automatically using Celery and Redis:
 
 3. Start worker:
 
-`celery -A exercise worker --loglevel=DEBUG`
-
-Please note: if running in Windows: add " -P solo" at the end of worker command:
 `celery -A exercise worker --loglevel=DEBUG -P solo`
 
 All 3 must run simultaneously. Redis must also be running and shouldn't need to be manually run, as the Redis server 
