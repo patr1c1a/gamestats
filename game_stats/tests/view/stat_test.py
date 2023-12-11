@@ -7,7 +7,9 @@ from django.utils import timezone
 
 class StatViewsTest(TestCase):
 	def setUp(self):
-		# Create test data for stats
+		"""
+		Creates test data.
+		"""
 		self.player1 = Player.objects.create(nickname="test_player1")
 		self.stat1 = Stat.objects.create(player=self.player1, creation_date=timezone.now(), score=10)
 		self.stat2 = Stat.objects.create(player=self.player1, creation_date=timezone.now(), score=5)
@@ -15,13 +17,17 @@ class StatViewsTest(TestCase):
 		self.client = APIClient()
 
 	def test_get_stats(self):
-		# Tests that all stats are returned
+		"""
+		Tests that all stats are returned
+		"""
 		response = self.client.get('/stats/')
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
 		self.assertEqual(len(response.data), Stat.objects.count())
 
 	def test_get_stat_detail(self):
-		# Tests retrieving a specific stat by its id
+		"""
+		Tests retrieving a specific stat by its id
+		"""
 		response = self.client.get(f'/stats/{self.stat1.id}/')
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
 		self.assertEqual(response.data['player']['id'], self.player1.id)
