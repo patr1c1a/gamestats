@@ -51,15 +51,18 @@ mysql_password
 `python manage.py shell -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`
 
 
-7. Run the docker container:
+7. Run the docker containers:
+
 `docker-compose up -d --build`
 
 
 8. Apply migrations:
+
 `python manage.py migrate`
 
 
 9. Generate static files
+
 `python manage.py collectstatic`
 
 
