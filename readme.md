@@ -16,7 +16,7 @@ purposes.
 -   Python 3.x
 
 
-### Installing
+### Project installation and configuration
 
 1.  Clone the repository
 2.  Create and activate a Python virtual environment (optional)
