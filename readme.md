@@ -4,7 +4,7 @@ Game stats project
 Django-based project with RESTful API for managing player stats.
 
 
-
+---------------
 Getting Started
 ---------------
 
@@ -66,7 +66,7 @@ mysql_password
 `python manage.py collectstatic`
 
 
-
+-------------
 Populate data
 -------------
 
@@ -98,7 +98,7 @@ All 3 must run simultaneously. Redis must also be running and shouldn't need to 
 is started as part of the Docker container initialization.
 
 
-
+--------------
 Access the API
 --------------
 
@@ -133,7 +133,7 @@ View /ranking/ (e.g.: http://localhost:8000/ranking/). Stats will refresh every 
 Optionally, this page includes a button to download this report as a csv file. 
 
 
-
+---------
 Endpoints
 ---------
 
@@ -193,7 +193,7 @@ list of the *game* field. Required field.
 
 
 
-
+-----------------
 Running unit tests
 -----------------
 
@@ -208,6 +208,7 @@ To run a specific test file (by replacing `<module>` and `<file>`):
 Test files are placed in the `./game_stats/tests/` folder
 
 
+----------
 Migrations
 ----------
 
