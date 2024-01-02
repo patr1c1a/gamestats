@@ -11,7 +11,7 @@ MySQL and Redis run in Docker containers.
 The top 10 players are listed in a web page that auto-refreshes every 10 seconds and allows to download data as a csv 
 file. 
 
-Players and games can be managed using the provided RESTful API.
+Django-Rest-Framework was used to create the RESTful API that enables managing players and games.
 
 
 ### Index
