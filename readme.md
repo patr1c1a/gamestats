@@ -1,7 +1,50 @@
 Game stats project 
 ==================
 
-Django-based project with RESTful API for managing player stats.
+Django-based project for managing player and game stats.
+
+Test data can be populated into the database using the command provided. Alternatively, this can be done automatically 
+using Celery and Redis.
+
+MySQL and Redis run in Docker containers.
+
+The top 10 players are listed in a web page that auto-refreshes every 10 seconds and allows to download data as a csv 
+file. 
+
+Players and games can be managed using the provided RESTful API.
+
+
+### Index
+
+- [Getting Started](#getting-started)
+
+    - [Prerequisites](#prerequisites)
+ 
+    - [Project installation and configuration](#project-installation-and-configuration)
+
+- [Populate data](#populate-data)
+
+    - [Manually](#manually)
+
+    - [Automated](#automated)
+
+- [Access data](#access-data)
+
+    - [Django admin console](#django-admin-console)
+
+    - [REST Client (e.g.: Postman)](#rest-client-eg-postman)
+
+    - [HTML report for top 10 scores](#html-report-for-top-10-scores)
+
+- [Endpoints](#endpoints)
+
+    - [Overview](#overview)
+
+    - [Resources](#resources)
+
+- [Running unit tests](#running-unit-tests)
+
+- [Migrations](#migrations)
 
 
 ---------------
@@ -13,7 +56,8 @@ purposes.
 
 ### Prerequisites
 
--   Python 3.x
+- Python 3.x
+- Docker
 
 
 ### Project installation and configuration
@@ -97,10 +141,15 @@ To run the previous script automatically using Celery and Redis:
 All 3 must run simultaneously. Redis must also be running and shouldn't need to be manually run, as the Redis server 
 is started as part of the Docker container initialization.
 
+To modify the cron job that runs the script automatically, find the following line in the periodic task setting:
 
---------------
-Access the API
---------------
+`'schedule': crontab(minute='*/5')`
+
+
+
+-----------
+Access data
+-----------
 
 Run the server:
 
@@ -118,7 +167,6 @@ First add a super user:
 and select the user name and password of your preference.
 
 Once the server is running, an admimn console UI will be available through /admin/ (e.g.: http://localhost:8000/admin/).
-
 
 
 ### REST Client (e.g.: Postman)
