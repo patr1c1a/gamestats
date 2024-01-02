@@ -20,7 +20,7 @@ class Command(BaseCommand):
         """
         with transaction.atomic():
             try:
-                print(self.style.SUCCESS('Simulating statistics, games, and players...'))
+                print(self.style.SUCCESS("Simulating statistics, games, and players..."))
 
                 # simulate Player data
                 players = self.generate_random_players()
@@ -34,34 +34,38 @@ class Command(BaseCommand):
                 game.save()
 
                 # simulate Stat data
+                player_data = self.generate_random_player_data()
+                new_player = random.choice(players) if players else Player.objects.create(
+                    nickname=player_data["nickname"], profile_image=player_data["profile_image"])
+
                 Stat.objects.create(
-                    player=random.choice(players),
+                    player=new_player,
                     creation_date=timezone.now(),
                     score=random.randint(0, 100),
-                    game=game)
+                    game=game if players else None)
 
-                print(self.style.SUCCESS('Statistics, games, and players simulation completed.'))
+                print(self.style.SUCCESS("Statistics, games, and players simulation completed."))
 
             except Exception as e:
-                print(self.style.ERROR(f'An error occurred: {str(e)}'))
+                print(self.style.ERROR(f"An error occurred: {str(e)}"))
 
     def generate_random_player_data(self) -> dict:
         """
         Generates random player data by calling the randomuser.me API.
 
         Returns:
-        dict: Dictionary containing 'nickname' and 'profile_image' fields.
+        dict: Dictionary containing "nickname" and "profile_image" fields.
         """
         try:
-            response = requests.get('https://randomuser.me/api/')
+            response = requests.get("https://randomuser.me/api/")
             response.raise_for_status()
-            data = response.json()['results'][0]
+            data = response.json()["results"][0]
             return {
-                'nickname': data['login']['username'],
-                'profile_image': data['picture']['large'],
+                "nickname": data["login"]["username"],
+                "profile_image": data["picture"]["large"],
             }
         except requests.exceptions.RequestException as e:
-            raise Exception(f'Error calling randomuser.me API: {str(e)}')
+            raise Exception(f"Error calling randomuser.me API: {str(e)}")
 
     def generate_random_players(self) -> list:
         """
@@ -76,11 +80,11 @@ class Command(BaseCommand):
 
             for _ in range(num_players):
                 player_data = self.generate_random_player_data()
-                player, _ = Player.objects.get_or_create(nickname=player_data['nickname'],
-                                                         profile_image=player_data['profile_image'])
+                player, _ = Player.objects.get_or_create(nickname=player_data["nickname"],
+                                                         profile_image=player_data["profile_image"])
                 players.append(player)
 
             return players
 
         except Exception as e:
-            raise Exception(f'Error generating random players: {str(e)}')
+            raise Exception(f"Error generating random players: {str(e)}")
