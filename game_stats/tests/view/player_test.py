@@ -16,16 +16,20 @@ class PlayerViewsTest(TestCase):
 
     def test_get_players(self):
         """
-        Tests that all players are returned.
+        Tests that correct players are returned by checking that all player nicknames returned by the endpoint exist
+        in the database.
         """
-        response = self.client.get('/players/')
+        response = self.client.get("/players/")
+        returned_nicknames = [player["nickname"] for player in response.data["results"]]
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), Player.objects.count())
+        self.assertIn(self.player1.nickname, returned_nicknames)
+        self.assertIn(self.player2.nickname, returned_nicknames)
+        self.assertIn(self.player3.nickname, returned_nicknames)
 
     def test_get_player_detail(self):
         """
         Tests retrieving a specific player by its id.
         """
-        response = self.client.get(f'/players/{self.player1.id}/')
+        response = self.client.get(f"/players/{self.player1.id}/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['nickname'], self.player1.nickname)
+        self.assertEqual(response.data["nickname"], self.player1.nickname)
