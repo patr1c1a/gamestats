@@ -16,8 +16,7 @@ class PlayerViewsTest(TestCase):
 
     def test_get_players(self):
         """
-        Tests that correct players are returned by checking that all player nicknames returned by the endpoint exist
-        in the database.
+        Tests the /players/ endpoint by validating that nicknames of all players added during test setUp are returned.
         """
         response = self.client.get("/players/")
         returned_nicknames = [player["nickname"] for player in response.data["results"]]
@@ -28,7 +27,7 @@ class PlayerViewsTest(TestCase):
 
     def test_get_player_detail(self):
         """
-        Tests retrieving a specific player by its id.
+        Tests the players/<int:pk>/ endpoint by retrieving a specific player by its id.
         """
         response = self.client.get(f"/players/{self.player1.id}/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
