@@ -10,7 +10,7 @@ class StatViewsTest(TestCase):
 		"""
 		Creates test data.
 		"""
-		self.player1 = Player.objects.create(nickname="test_player1")
+		self.player1 = Player.objects.create(nickname="stat_view_test_player1")
 		self.stat1 = Stat.objects.create(player=self.player1, creation_date=timezone.now(), score=10)
 		self.stat2 = Stat.objects.create(player=self.player1, creation_date=timezone.now(), score=5)
 		self.stat3 = Stat.objects.create(player=self.player1, creation_date=timezone.now(), score=1)

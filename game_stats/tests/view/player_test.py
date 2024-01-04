@@ -9,9 +9,9 @@ class PlayerViewsTest(TestCase):
         """
         Creates test data.
         """
-        self.player1 = Player.objects.create(nickname="test_player1")
-        self.player2 = Player.objects.create(nickname="test_player2")
-        self.player3 = Player.objects.create(nickname="test_player3")
+        self.player1 = Player.objects.create(nickname="player_view_test_player1")
+        self.player2 = Player.objects.create(nickname="player_view_test_player2")
+        self.player3 = Player.objects.create(nickname="player_view_test_player3")
         self.client = APIClient()
 
     def test_get_players(self):
