@@ -27,14 +27,14 @@ class SimulateStatsTests(TestCase):
         command = Command()
         command.handle()
 
+        player = Player.objects.latest('id')
+        game = Game.objects.latest('id')
+        stat = Stat.objects.latest('id')
+
         # assert at least 1 player, 1 game and 1 stat have been created.
         self.assertGreaterEqual(Player.objects.count(), 1)
         self.assertEqual(Game.objects.count(), 1)
         self.assertGreaterEqual(Stat.objects.count(), 1)
-
-        player = Player.objects.first()
-        game = Game.objects.first()
-        stat = Stat.objects.first()
 
         self.assertEqual(player.nickname, "test_user")
         self.assertEqual(player.profile_image, "https://example.com/test_image.jpg")
