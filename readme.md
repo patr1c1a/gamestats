@@ -16,6 +16,8 @@ Django-Rest-Framework was used to create the RESTful API that enables managing p
 
 ### Index
 
+- [Project Description](#project-description)
+
 - [Getting Started](#getting-started)
 
     - [Prerequisites](#prerequisites)
@@ -45,6 +47,20 @@ Django-Rest-Framework was used to create the RESTful API that enables managing p
 - [Running unit tests](#running-unit-tests)
 
 - [Migrations](#migrations)
+
+
+-------------------
+Project Description
+-------------------
+
+This project allows storing and managing statistics for a hypothetical game with multiple players. The game can have 
+matches ("games") involving 0 to 10 players. This project generates statistics and a web report with the top 10 player 
+scores.
+
+Models are: _Player_ (a single player), _Game_ (a match that can have up to 10 players or even no players, for example 
+if the match was abandoned by the players or was never started) and _Stat_ (statistics on a single player, that can 
+optionally be related to a game but not necessarily, for example if general statistics or media scores need to be 
+generated). More details on models can be found in the [Resources](#resources) section.
 
 
 ---------------
@@ -178,7 +194,7 @@ See the _Endpoints_ section.
 
 View /ranking/ (e.g.: http://localhost:8000/ranking/). Stats will refresh every 10 seconds.
 
-Optionally, this page includes a button to download this report as a csv file. 
+Optionally, the page includes a button to download this report as a csv file. 
 
 
 ---------
