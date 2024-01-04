@@ -18,15 +18,22 @@ class StatViewsTest(TestCase):
 
 	def test_get_stats(self):
 		"""
-		Tests that all stats are returned
+		Tests the /stats/ endpoint by validating that stats added during test setUp are returned, asserting their
+		scores and player nicknames.
 		"""
 		response = self.client.get('/stats/')
+		returned_stats = [stat for stat in response.data["results"]]
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
-		self.assertEqual(len(response.data), Stat.objects.count())
+		self.assertEqual(self.stat1.score, returned_stats[0]["score"])
+		self.assertEqual(self.stat1.player.nickname, returned_stats[0]["player"]["nickname"])
+		self.assertEqual(self.stat2.score, returned_stats[1]["score"])
+		self.assertEqual(self.stat2.player.nickname, returned_stats[1]["player"]["nickname"])
+		self.assertEqual(self.stat3.score, returned_stats[2]["score"])
+		self.assertEqual(self.stat3.player.nickname, returned_stats[2]["player"]["nickname"])
 
 	def test_get_stat_detail(self):
 		"""
-		Tests retrieving a specific stat by its id
+		Tests the stats/<int:pk>/ endpoint by retrieving a specific stat by its id.
 		"""
 		response = self.client.get(f'/stats/{self.stat1.id}/')
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
