@@ -13,7 +13,7 @@ class SimulateStatsTests(TestCase):
     def test_simulate_stats_command(self, mock_requests_get):
         """
         Tests the simulate_stats command by running it and asserting the expected database records.
-        Mocks the requests.get() method to avoid actual API calls during testing.
+        Mocks the requests.get() method to generate a new player without actual API calls during testing.
         """
         mock_response = {
             'results': [{
@@ -48,7 +48,7 @@ class SimulateStatsTests(TestCase):
     def test_simulate_stats_exception_handling(self, mock_requests_get):
         """
         Tests the simulate_stats command exception handling.
-        Mocks the requests.get() method to avoid actual API calls during testing.
+        Mocks the requests.get() method to generate a new player without actual API calls during testing.
         """
         mock_requests_get.side_effect = requests.exceptions.RequestException("Mocked API error")
 
@@ -60,3 +60,31 @@ class SimulateStatsTests(TestCase):
         self.assertEqual(Player.objects.count(), 0)
         self.assertEqual(Stat.objects.count(), 0)
         self.assertEqual(Game.objects.count(), 0)
+
+    @patch('game_stats.management.commands.simulate_stats.requests.get')
+    @patch('game_stats.management.commands.simulate_stats.Command.generate_random_players')
+    def test_simulate_stats_with_zero_players(self, mock_generate_random_players, mock_requests_get):
+        """
+        Tests the simulate_stats command when the players list in the Game object is empty.
+        Mocks the requests.get() method to generate a new player without actual API calls during testing.
+        Mocks the generate_random_players() method in the script to return an empty list of players.
+        """
+        mock_requests_get.return_value.json.return_value = {
+            'results': [{
+                'login': {'username': 'test_user'},
+                'picture': {'large': 'https://example.com/test_image.jpg'},
+            }]
+        }
+        mock_generate_random_players.return_value = []
+
+        command = Command()
+        command.handle()
+
+        stat = Stat.objects.latest('id')
+
+        self.assertEqual(Player.objects.count(), 1)
+        self.assertEqual(Game.objects.count(), 1)
+        self.assertEqual(Stat.objects.count(), 1)
+        self.assertIsNotNone(stat.player)
+        self.assertEqual(stat.player.nickname, "test_user")
+        self.assertEqual(stat.player.profile_image, "https://example.com/test_image.jpg")
