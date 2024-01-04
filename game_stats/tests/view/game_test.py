@@ -22,7 +22,7 @@ class GameViewsTest(TestCase):
 		"""
 		Tests that all games are returned
 		"""
-		response = self.client.get('/stats/')
+		response = self.client.get('/games/')
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
 		self.assertEqual(len(response.data), Game.objects.count())
 
