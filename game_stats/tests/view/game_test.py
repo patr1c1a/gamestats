@@ -20,11 +20,16 @@ class GameViewsTest(TestCase):
 
 	def test_get_games(self):
 		"""
-		Tests the /games/ endpoint to validate that all games are returned.
+		Tests the /games/ endpoint by validating that nicknames of all players added during test setUp are returned.
 		"""
 		response = self.client.get('/games/')
+		returned_nicknames = []
+		for game in response.data["results"]:
+			for player in game.get("players"):
+				returned_nicknames.append(player["nickname"])
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
-		self.assertEqual(len(response.data), Game.objects.count())
+		self.assertIn(self.player1.nickname, returned_nicknames)
+		self.assertIn(self.player2.nickname, returned_nicknames)
 
 	def test_get_game_detail(self):
 		"""
