@@ -1,10 +1,9 @@
-from rest_framework import generics
 from .models import Player, Stat, Game
 from .serializers import PlayerSerializer, StatSerializer, GameSerializer
+from rest_framework import generics, status, parsers, renderers
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
 from django.shortcuts import render
 
 
@@ -75,28 +74,20 @@ class StatDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StatSerializer
 
 
-def get_top_scores():
-    top_scores = Stat.objects.order_by('-score')[:10]
-    serializer = StatSerializer(top_scores, many=True)
-    return serializer.data
-
-
 class StatRankingView(APIView):
-    """
-    API endpoint that retrieves Stats with the highest 10 scores.
-    """
-    def get(self, request):
-        data = get_top_scores()
-        return Response(data, status=status.HTTP_200_OK)
 
-
-class RankingView(APIView):
-    """
-    View for the HTML report.
-    """
-    template_name = 'report.html'
+    def get_top_scores(self):
+        top_scores = Stat.objects.order_by('-score')[:10]
+        serializer = StatSerializer(top_scores, many=True)
+        return serializer.data
 
     def get(self, request):
-        data = get_top_scores()
-        context = {'ranking_data': data}
-        return render(request, self.template_name, context)
+        top_scores = self.get_top_scores()
+
+        # Check if the request accepts HTML content
+        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+            context = {'ranking_data': top_scores}
+            return render(request, 'report.html', context)
+
+        # Return JSON response for other cases
+        return Response(top_scores)

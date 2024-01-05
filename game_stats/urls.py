@@ -9,8 +9,7 @@ urlpatterns = [
    path("stats/<int:pk>/", StatDetail.as_view(), name="stat-by-id"),
    path("games/", GameList.as_view(), name="game-list"),
    path("games/<int:pk>/", GameDetail.as_view(), name="game-by-id"),
-   path("stats/ranking/", StatRankingView.as_view(), name="stat-ranking-api"),
-   path("ranking/", RankingView.as_view(), name="stat-ranking-html"),
+   path("stats/ranking/", StatRankingView.as_view(), name="top-10-scores"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
