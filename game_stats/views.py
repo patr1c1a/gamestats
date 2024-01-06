@@ -1,9 +1,10 @@
 from .models import Player, Stat, Game
 from .serializers import PlayerSerializer, StatSerializer, GameSerializer
-from rest_framework import generics, status, parsers, renderers
+from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from django.shortcuts import render
 
 
@@ -75,6 +76,7 @@ class StatDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class StatRankingView(APIView):
+    renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
 
     def get_top_scores(self):
         top_scores = Stat.objects.order_by('-score')[:10]
@@ -85,7 +87,7 @@ class StatRankingView(APIView):
         top_scores = self.get_top_scores()
 
         # Check if the request accepts HTML content
-        if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
+        if request.accepted_renderer.format == "html":
             context = {'ranking_data': top_scores}
             return render(request, 'report.html', context)
 
