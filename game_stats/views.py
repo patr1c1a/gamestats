@@ -79,7 +79,7 @@ class StatRankingView(APIView):
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
 
     def get_top_scores(self):
-        top_scores = Stat.objects.order_by('-score')[:10]
+        top_scores = Stat.objects.order_by("-score")[:10]
         serializer = StatSerializer(top_scores, many=True)
         return serializer.data
 
@@ -88,8 +88,8 @@ class StatRankingView(APIView):
 
         # Check if the request accepts HTML content
         if request.accepted_renderer.format == "html":
-            context = {'ranking_data': top_scores}
-            return render(request, 'report.html', context)
+            context = {"ranking_data": top_scores}
+            return render(request, "report.html", context)
 
         # Return JSON response for other cases
         return Response(top_scores)
