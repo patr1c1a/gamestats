@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from django.shortcuts import render
+from .renderers import CustomCSVRenderer
 
 
 class CustomPagination(PageNumberPagination):
@@ -76,12 +77,18 @@ class StatDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class StatRankingView(APIView):
-    renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
+    renderer_classes = [JSONRenderer, TemplateHTMLRenderer, CustomCSVRenderer]
 
     def get_top_scores(self):
         top_scores = Stat.objects.order_by("-score")[:10]
         serializer = StatSerializer(top_scores, many=True)
-        return serializer.data
+        data = serializer.data
+
+        # Flatten the player data and remove unused game data
+        for item in data:
+            item['player'] = item['player']['nickname']
+
+        return data if data else []
 
     def get(self, request):
         top_scores = self.get_top_scores()
@@ -91,5 +98,12 @@ class StatRankingView(APIView):
             context = {"ranking_data": top_scores}
             return render(request, "report.html", context)
 
+        # CSV export
+        elif request.accepted_renderer.format == "csv":
+            response = Response(top_scores, content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="top_scores.csv"'
+            return response
+
         # Return JSON response for other cases
-        return Response(top_scores)
+        else:
+            return Response(top_scores)
