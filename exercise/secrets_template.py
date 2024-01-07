@@ -1,5 +1,7 @@
 SECRET_KEY = "your Django secret key here"
-mysql_root_password = 'replace with your mysql root password'
-mysql_database = 'replace with your mysql db name'
-mysql_user = 'replace with your mysql username'
-mysql_password = 'replace with your mysql password'
+mysql_root_password = "replace with your mysql root password"
+mysql_database = "replace with your mysql db name"
+mysql_user = "replace with your mysql username"
+mysql_password = "replace with your mysql password"
+google_oauth2_clientid = "replace with your google oauth client id"
+google_oauth2_clientsecret = "replace with your google oauth client secret"

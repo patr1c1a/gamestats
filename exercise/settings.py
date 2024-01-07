@@ -159,3 +159,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'game_stats/static'),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+# OAuth 2.0
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = secrets.google_oauth2_clientid
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = secrets.google_oauth2_clientsecret
