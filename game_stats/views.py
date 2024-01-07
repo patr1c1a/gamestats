@@ -87,6 +87,9 @@ class StatRankingView(APIView):
         # Flatten the player data and remove unused game data
         for item in data:
             item['player'] = item['player']['nickname']
+            item.pop('id', None)
+            item.pop('creation_date', None)
+            item.pop('game', None)
 
         return data if data else []
 
