@@ -24,23 +24,11 @@ function exportToCSV() {
     $.ajax({
         url: '/stats/ranking/',
         method: 'GET',
-        success: function (data) {
-            data.forEach((stat, index) => {
-                stat.rank = index + 1;
-            });
-
-            const csvData = data.map(stat => ({
-                Rank: stat.rank,
-                Player: stat.player.nickname,
-                Score: stat.score,
-            }));
-
-            const csv = Papa.unparse(csvData, {
-                quotes: true,
-                header: true,
-            });
-
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        headers: {
+            'Accept': 'text/csv',
+        },
+        success: function (data, status, xhr) {
+            const blob = new Blob([data], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
 
             if (link.download !== undefined) {
@@ -60,6 +48,7 @@ function exportToCSV() {
         },
     });
 }
+
 
 
 // initial update (on page load)
