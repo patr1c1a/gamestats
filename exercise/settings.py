@@ -136,6 +136,9 @@ CELERYD_REDIRECT_STDOUTS_LEVEL = DEBUG  # don't run with debug level in producti
 # Swagger documentation (drf_spectacular package) settings:
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
 }
 
 SPECTACULAR_SETTINGS = {
