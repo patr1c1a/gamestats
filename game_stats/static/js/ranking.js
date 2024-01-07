@@ -15,7 +15,7 @@ function updateRanking() {
 function renderRanking(data) {
     let html = '';
     data.forEach(function (stat, index) {
-        html += `<tr><td>${index + 1}</td><td>${stat.player.nickname}</td><td>${stat.score}</td></tr>`;
+        html += `<tr><td>${index + 1}</td><td>${stat.player}</td><td>${stat.score}</td></tr>`;
     });
     return html;
 }
