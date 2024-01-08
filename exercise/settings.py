@@ -3,6 +3,7 @@ Django settings.
 """
 
 from pathlib import Path
+from datetime import timedelta
 from . import secrets
 import os
 
@@ -36,6 +37,7 @@ INSTALLED_APPS = [
     "game_stats",
     "django_celery_beat",
     "drf_spectacular",
+    "rest_framework_simplejwt",
 ]
 
 MIDDLEWARE = [
@@ -159,3 +161,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'game_stats/static'),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+# Authentication
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
