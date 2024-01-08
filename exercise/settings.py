@@ -75,15 +75,15 @@ WSGI_APPLICATION = "exercise.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': secrets.mysql_database,
-        'USER': secrets.mysql_user,
-        'PASSWORD': secrets.mysql_password,
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": secrets.mysql_database,
+        "USER": secrets.mysql_user,
+        "PASSWORD": secrets.mysql_password,
+        "HOST": "127.0.0.1",
+        "PORT": "3306",
+        "OPTIONS": {
+            "charset": "utf8mb4",
         },
     },
 }
@@ -137,34 +137,34 @@ CELERYD_REDIRECT_STDOUTS_LEVEL = DEBUG  # don't run with debug level in producti
 
 # Swagger documentation (drf_spectacular package) settings:
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Game stats',
-    'DESCRIPTION': 'Game stats for players',
-    'VERSION': '1.0.0',
-    'SCHEMA_PATH_PREFIX': '/game_stats',
-    'SERVE_INCLUDE_SCHEMA': False,
-    'SWAGGER_UI_SETTINGS': {
-        'persistAuthorization': True,
-        'docExpansion': 'none',
+    "TITLE": "Game stats",
+    "DESCRIPTION": "Game stats for players",
+    "VERSION": "1.0.0",
+    "SCHEMA_PATH_PREFIX": "/game_stats",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SWAGGER_UI_SETTINGS": {
+        "persistAuthorization": True,
+        "docExpansion": "none",
     },
 }
 
 
 # Static files
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'game_stats/static'),
+    os.path.join(BASE_DIR, "game_stats/static"),
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 
 # Authentication
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
