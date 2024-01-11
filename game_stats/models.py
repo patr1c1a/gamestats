@@ -1,11 +1,13 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 
 class Player(models.Model):
     """
     A single player.
     """
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=255)
     profile_image = models.URLField(null=True, blank=True)
 
@@ -16,7 +18,7 @@ class Player(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"(ID: {self.pk}). NICKNAME: {self.nickname}. AVATAR: {self.profile_image}"
+        return f"(ID: {self.pk}). NICKNAME: {self.nickname}. AVATAR: {self.profile_image}. REAL NAME: {self.user.first_name + self.user.last_name}"
 
 
 class Game(models.Model):
