@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 
 
 class PlayerSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Player model.
+    """
     class Meta:
         model = Player
         fields = "__all__"
@@ -20,6 +23,9 @@ class PlayerSerializer(serializers.ModelSerializer):
 
 
 class GameSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Game model.
+    """
     class Meta:
         model = Game
         fields = "__all__"
@@ -54,6 +60,9 @@ class GameSerializer(serializers.ModelSerializer):
 
 
 class StatSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Stat model.
+    """
     class Meta:
         model = Stat
         fields = "__all__"
@@ -83,6 +92,9 @@ class StatSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the User model.
+    """
     password = serializers.CharField(write_only=True)
 
     class Meta:
