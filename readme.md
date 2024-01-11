@@ -229,24 +229,37 @@ http://localhost:8000/stats?page=3).
 
 * `/stats/ranking/`: GET (E.g.: http://localhost:8000/stats/ranking/). Shows the 10 best scores of all time.
 
+* `/signup/`: POST. (e.g.: http://localhost:8000/signup/). Register a new user.
+
+
 
 ### Resources
 
 
-1. Player (endpoint: **/players/**)
+1. User signup (endpoint: **/signup/**)
+Model provided by django.contrib.auth component (https://docs.djangoproject.com/en/4.2/ref/contrib/auth/).
+* `id`: Autonumeric field that represents the primary key in the database. Read-only field.
+* `username`: User registration name. A string with 150 characters or fewer. Required field.
+* `email`: User email. Optional field.
+* `password`: User password. Required field.
+* `first_name`: User first name. A string with 150 characters or fewer. Optional field.
+* `last_name`: User last name. A string with 150 characters or fewer. Optional field.
+
+2. Player (endpoint: **/players/**)
 
 * `id`: Autonumeric field that represents the primary key in the database. Read-only field.
+* `user`: An existing user. A foreign key to the *User* model. Required field.
 * `nickname`: Player nickname (e.g.: "test_user") that can only contain letters, numbers or underscores. Required field.
 * `profile_image`: An URL containing a profile image (avatar) of the player. Optional field.
 
 
-2. Game (endpoint: **/games/**)
+3. Game (endpoint: **/games/**)
 
 * `id`: Autonumeric field that represents the primary key in the database. Read-only field.
 * `players`: Players involved in the game (0-10 players). A list of foreign keys to the *Player* model.
 * `winner`: The game winner. A foreign key to the *Player* model. Must be included in the players list. Optional field.
 
-3. Stat (endpoint: **/stats/**)
+4. Stat (endpoint: **/stats/**)
 
 * `id`: Autonumeric field that represents the primary key in the database. Read-only field.
 * `player`: The player associated to the stat. A foreign key to the *Player* model. Must be included in the player's 
@@ -254,6 +267,8 @@ list of the *game* field. Required field.
 * `creation_date`: Date of card creation. Automatically defaults to the current date of entry. Read-only field.
 * `score`: The score obtained by the player. Must be a positive number. Optional field.
 * `game`: The game associated to the stat. A foreign key to the *Game* model. Optional field.
+
+
 
 
 
