@@ -11,6 +11,9 @@ from .renderers import CustomCSVRenderer
 
 
 class CustomPagination(PageNumberPagination):
+    """
+    Adds pagination to endpoints.
+    """
     page_size = 10
     page_size_query_param = "page_size"
     max_page_size = 100
@@ -28,7 +31,7 @@ class CustomPagination(PageNumberPagination):
 
 class PlayerList(generics.ListCreateAPIView):
     """
-    API endpoint that allows players to be viewed or created.
+    Allows players to be viewed or created.
     """
     queryset = Player.objects.all()
     serializer_class = PlayerSerializer
@@ -37,7 +40,7 @@ class PlayerList(generics.ListCreateAPIView):
 
 class PlayerDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    API endpoint that allows a single player to be viewed, updated, or deleted.
+    Allows a single player to be viewed, updated, or deleted.
     """
     queryset = Player.objects.all()
     serializer_class = PlayerSerializer
@@ -45,7 +48,7 @@ class PlayerDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class GameList(generics.ListCreateAPIView):
     """
-    API endpoint that allows games to be viewed or created.
+    Allows games to be viewed or created.
     """
     queryset = Game.objects.all()
     serializer_class = GameSerializer
@@ -54,7 +57,7 @@ class GameList(generics.ListCreateAPIView):
 
 class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    API endpoint that allows a single game to be viewed, updated, or deleted.
+    Allows a single game to be viewed, updated, or deleted.
     """
     queryset = Game.objects.all()
     serializer_class = GameSerializer
@@ -62,7 +65,7 @@ class GameDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class StatList(generics.ListCreateAPIView):
     """
-    API endpoint that allows stats to be viewed or created.
+    Allows stats to be viewed or created.
     """
     queryset = Stat.objects.all()
     serializer_class = StatSerializer
@@ -71,7 +74,7 @@ class StatList(generics.ListCreateAPIView):
 
 class StatDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    API endpoint that allows a single stat to be viewed, updated, or deleted.
+    Allows a single stat to be viewed, updated, or deleted.
     """
     queryset = Stat.objects.all()
     serializer_class = StatSerializer
@@ -115,7 +118,7 @@ class StatRankingView(APIView):
 
 class UserRegistrationView(generics.CreateAPIView):
     """
-    API endpoint that allows users to be registered.
+    Allows users to be registered.
     """
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
