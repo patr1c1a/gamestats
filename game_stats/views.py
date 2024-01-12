@@ -30,7 +30,7 @@ class CustomPagination(PageNumberPagination):
         )
 
 
-class PlayerList(generics.ListCreateAPIView):
+class PlayerListCreate(generics.ListCreateAPIView):
     """
     Allows players to be viewed or created.
     """
@@ -39,7 +39,7 @@ class PlayerList(generics.ListCreateAPIView):
     pagination_class = CustomPagination
 
 
-class PlayerDetail(generics.RetrieveUpdateDestroyAPIView):
+class PlayerRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
     Allows a single player to be viewed, updated, or deleted.
     """
@@ -47,7 +47,7 @@ class PlayerDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PlayerSerializer
 
 
-class GameList(generics.ListCreateAPIView):
+class GameListCreate(generics.ListCreateAPIView):
     """
     Allows games to be viewed or created.
     """
@@ -56,7 +56,7 @@ class GameList(generics.ListCreateAPIView):
     pagination_class = CustomPagination
 
 
-class GameDetail(generics.RetrieveUpdateDestroyAPIView):
+class GameRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
     Allows a single game to be viewed, updated, or deleted.
     """
@@ -64,7 +64,7 @@ class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = GameSerializer
 
 
-class StatList(generics.ListCreateAPIView):
+class StatListCreate(generics.ListCreateAPIView):
     """
     Allows stats to be viewed or created.
     """
@@ -73,7 +73,7 @@ class StatList(generics.ListCreateAPIView):
     pagination_class = CustomPagination
 
 
-class StatDetail(generics.RetrieveUpdateDestroyAPIView):
+class StatRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
     Allows a single stat to be viewed, updated, or deleted.
     """
@@ -126,7 +126,7 @@ class StatRankingView(APIView):
             return Response(top_scores)
 
 
-class UserListCreateView(generics.ListCreateAPIView):
+class UserListCreate(generics.ListCreateAPIView):
     """
     Allows users to be listed or created.
     """
@@ -145,7 +145,7 @@ class UserListCreateView(generics.ListCreateAPIView):
         return []
 
 
-class UserRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
     Allows users to be retrieved, updated, or deleted.
     """
