@@ -81,9 +81,15 @@ class StatDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class StatRankingView(APIView):
+    """
+    Allows listing the stats with top 10 scores.
+    """
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer, CustomCSVRenderer]
 
     def get_top_scores(self):
+        """
+        Obtains the top 10 stats according to highest scores.
+        """
         top_scores = Stat.objects.order_by("-score")[:10]
         serializer = StatSerializer(top_scores, many=True)
         data = serializer.data
@@ -98,6 +104,9 @@ class StatRankingView(APIView):
         return data if data else []
 
     def get(self, request):
+        """
+        Implements GET HTTP method for html and json requests, as well as serve the csv download feature.
+        """
         top_scores = self.get_top_scores()
 
         # Check if the request accepts HTML content
