@@ -128,8 +128,17 @@ class StatRankingView(APIView):
 
 class UserListCreateView(generics.ListCreateAPIView):
     """
-    Allows users to be listed or registered.
+    Allows users to be listed or created.
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+
+
+class UserRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Allows users to be retrieved, updated, or deleted.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
