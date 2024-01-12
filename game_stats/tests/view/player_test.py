@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.test import APIClient
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import AccessToken
 from game_stats.models import Player
 
 
@@ -18,8 +18,7 @@ class PlayerViewsTest(TestCase):
         self.player2 = Player.objects.create(user=self.user2, nickname="player_view_test_player2")
         self.player3 = Player.objects.create(user=self.user3, nickname="player_view_test_player3")
 
-        refresh = RefreshToken.for_user(self.user1)
-        self.access_token = str(refresh.access_token)
+        self.access_token = str(AccessToken.for_user(self.user1))
         self.client = APIClient()
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
 
