@@ -164,7 +164,7 @@ class UserListCreate(generics.ListCreateAPIView):
         created by anyone).
         """
         if self.request.method == 'GET':
-            return [IsAuthenticated()]
+            return [IsAdminUser()]
         elif self.request.method == 'POST':
             return [AllowAny()]
         return []
