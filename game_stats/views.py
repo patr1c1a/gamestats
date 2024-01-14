@@ -5,7 +5,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from .renderers import CustomCSVRenderer
@@ -32,7 +32,7 @@ class CustomPagination(PageNumberPagination):
 
 class PlayerListCreate(generics.ListCreateAPIView):
     """
-    Allows players to be viewed or created.
+    Allows players to be listed or created.
     """
     queryset = Player.objects.all()
     serializer_class = PlayerSerializer
@@ -41,15 +41,23 @@ class PlayerListCreate(generics.ListCreateAPIView):
 
 class PlayerRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
-    Allows a single player to be viewed, updated, or deleted.
+    Allows a single player to be viewed, updated or deleted.
     """
     queryset = Player.objects.all()
     serializer_class = PlayerSerializer
 
+    def get_permissions(self):
+        """
+        Only allow admin users to delete.
+        """
+        if self.request.method == 'DELETE':
+            return [IsAdminUser()]
+        return []
+
 
 class GameListCreate(generics.ListCreateAPIView):
     """
-    Allows games to be viewed or created.
+    Allows games to be listed or created.
     """
     queryset = Game.objects.all()
     serializer_class = GameSerializer
@@ -58,15 +66,23 @@ class GameListCreate(generics.ListCreateAPIView):
 
 class GameRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
-    Allows a single game to be viewed, updated, or deleted.
+    Allows a single game to be viewed, updated or deleted.
     """
     queryset = Game.objects.all()
     serializer_class = GameSerializer
 
+    def get_permissions(self):
+        """
+        Only allow admin users to delete.
+        """
+        if self.request.method == 'DELETE':
+            return [IsAdminUser()]
+        return []
+
 
 class StatListCreate(generics.ListCreateAPIView):
     """
-    Allows stats to be viewed or created.
+    Allows stats to be listed or created.
     """
     queryset = Stat.objects.all()
     serializer_class = StatSerializer
@@ -75,10 +91,18 @@ class StatListCreate(generics.ListCreateAPIView):
 
 class StatRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
-    Allows a single stat to be viewed, updated, or deleted.
+    Allows a single stat to be viewed, updated or deleted.
     """
     queryset = Stat.objects.all()
     serializer_class = StatSerializer
+
+    def get_permissions(self):
+        """
+        Only allow admin users to delete.
+        """
+        if self.request.method == 'DELETE':
+            return [IsAdminUser()]
+        return []
 
 
 class StatRankingView(APIView):
@@ -147,8 +171,15 @@ class UserListCreate(generics.ListCreateAPIView):
 
 class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
-    Allows users to be retrieved, updated, or deleted.
+    Allows a single user to be retrieved, updated or deleted.
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+    def get_permissions(self):
+        """
+        Only allow admin users to delete.
+        """
+        if self.request.method == 'DELETE':
+            return [IsAdminUser()]
+        return []
