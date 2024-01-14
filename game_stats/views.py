@@ -34,7 +34,7 @@ class PlayerListCreate(generics.ListCreateAPIView):
     """
     Allows players to be listed or created.
     """
-    queryset = Player.objects.all()
+    queryset = Player.objects.all().order_by("id")
     serializer_class = PlayerSerializer
     pagination_class = CustomPagination
 
@@ -59,7 +59,7 @@ class GameListCreate(generics.ListCreateAPIView):
     """
     Allows games to be listed or created.
     """
-    queryset = Game.objects.all()
+    queryset = Game.objects.all().order_by("id")
     serializer_class = GameSerializer
     pagination_class = CustomPagination
 
@@ -84,7 +84,7 @@ class StatListCreate(generics.ListCreateAPIView):
     """
     Allows stats to be listed or created.
     """
-    queryset = Stat.objects.all()
+    queryset = Stat.objects.all().order_by("id")
     serializer_class = StatSerializer
     pagination_class = CustomPagination
 
@@ -155,7 +155,7 @@ class UserListCreate(generics.ListCreateAPIView):
     """
     Allows users to be listed or created.
     """
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by("id")
     serializer_class = UserSerializer
 
     def get_permissions(self):
