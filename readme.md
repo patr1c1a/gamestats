@@ -209,6 +209,13 @@ and a downloadable yaml file is available at http://localhost:8000/game_stats/sc
 
 Pagination is enabled (defaults to 10 items per page). 
 
+
+* `/api/token/`: GET (e.g.: http://localhost:8000/api/token/). Log in with username and password (returns an access 
+and refresh JWT pair).
+
+* `/api/token/refresh/`: GET (e.g.: http://localhost:8000/api/token/refresh/). Refresh JSON web token (returns an 
+access type token).
+
 * `/players/`: GET, POST. (e.g.: http://localhost:8000/players/)
 To use pagination, add: `?page=X` (where X is the page number) as a parameter (e.g.: 
 http://localhost:8000/players?page=3).
@@ -229,7 +236,10 @@ http://localhost:8000/stats?page=3).
 
 * `/stats/ranking/`: GET (E.g.: http://localhost:8000/stats/ranking/). Shows the 10 best scores of all time.
 
-* `/signup/`: POST. (e.g.: http://localhost:8000/signup/). Register a new user.
+* `/users/`: GET, POST. (e.g.: http://localhost:8000/users/). To use pagination, add: `?page=X` (where X is the page 
+number) as a parameter (e.g.: http://localhost:8000/users?page=3).
+
+* `/users/{id}/`: GET, PUT, PATCH, DELETE (e.g.: http://localhost:8000/users/21)
 
 
 
