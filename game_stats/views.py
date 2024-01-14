@@ -110,6 +110,7 @@ class StatRankingView(APIView):
     Allows listing the stats with top 10 scores.
     """
     renderer_classes = [JSONRenderer, TemplateHTMLRenderer, CustomCSVRenderer]
+    serializer_class = StatSerializer
 
     def get_top_scores(self):
         """
