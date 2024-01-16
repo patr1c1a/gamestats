@@ -9,7 +9,7 @@ class Player(models.Model):
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=255)
-    profile_image = models.URLField(null=True, blank=True)
+    profile_image = models.URLField(null=True, blank=True)  # TODO: switch to S3 upload
 
     def save(self, *args, **kwargs):
         # Check that nickname only contains alphanumeric or underscore characters.

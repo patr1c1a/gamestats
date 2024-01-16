@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Player, Stat, Game
 from django.contrib.auth.models import User
 
+# TODO: handle duplicate entries and add more validations.
 
 class PlayerSerializer(serializers.ModelSerializer):
     """

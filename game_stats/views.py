@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from .renderers import CustomCSVRenderer
 
+# TODO: add tests for POST, DELETE, PUT, PATCH
 
 class CustomPagination(PageNumberPagination):
     """
