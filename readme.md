@@ -220,26 +220,26 @@ access type token).
 To use pagination, add: `?page=X` (where X is the page number) as a parameter (e.g.: 
 http://localhost:8000/players?page=3).
 
-* `/players/{id}/`: GET, PUT, PATCH, DELETE (e.g.: http://localhost:8000/players/21)
+* `/players/{id}/`: GET, PUT, PATCH, DELETE (e.g.: http://localhost:8000/players/21). Only admin users can delete.
 
 * `/games/`: GET, POST. (e.g.: http://localhost:8000/games/)
 To use pagination, add: `?page=X` (where X is the page number) as a parameter (e.g.: 
 http://localhost:8000/games?page=3).
 
-* `/games/{id}/`: GET, PUT, PATCH, DELETE (e.g.: http://localhost:8000/games/21)
+* `/games/{id}/`: GET, PUT, PATCH, DELETE (e.g.: http://localhost:8000/games/21). Only admin users can delete.
 
 * `/stats/`: GET, POST. (e.g.: http://localhost:8000/stats/)
 To use pagination, add: `?page=X` (where X is the page number) as a parameter (e.g.: 
 http://localhost:8000/stats?page=3).
 
-* `/stats/{id}/`: GET, PUT, PATCH, DELETE (e.g.: http://localhost:8000/stats/21)
+* `/stats/{id}/`: GET, PUT, PATCH, DELETE (e.g.: http://localhost:8000/stats/21). Only admin users can delete.
 
 * `/stats/ranking/`: GET (E.g.: http://localhost:8000/stats/ranking/). Shows the 10 best scores of all time.
 
 * `/users/`: GET, POST. (e.g.: http://localhost:8000/users/). To use pagination, add: `?page=X` (where X is the page 
 number) as a parameter (e.g.: http://localhost:8000/users?page=3).
 
-* `/users/{id}/`: GET, PUT, PATCH, DELETE (e.g.: http://localhost:8000/users/21)
+* `/users/{id}/`: GET, PUT, PATCH, DELETE (e.g.: http://localhost:8000/users/21). Only admin users can delete.
 
 
 
