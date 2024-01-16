@@ -29,7 +29,7 @@ class GameViewsTest(TestCase):
 		"""
 		Tests GET to /games/ endpoint by validating that nicknames of all players added during test setUp are returned.
 		"""
-		response = self.client.get('/games/')
+		response = self.client.get(reverse("game-list-or-create"))
 		returned_nicknames = []
 		for game in response.data["results"]:
 			for player in game.get("players"):
@@ -42,7 +42,7 @@ class GameViewsTest(TestCase):
 		"""
 		Tests GET to /games/<int:pk>/ endpoint by retrieving a specific game by its id.
 		"""
-		response = self.client.get(f"/games/{self.game1.id}/")
+		response = self.client.get(reverse("game-by-id", args=[self.game1.id]), format="json")
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 	def test_get_game_no_trailing_slash(self):
