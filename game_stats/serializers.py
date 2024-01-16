@@ -35,8 +35,13 @@ class GameSerializer(serializers.ModelSerializer):
         """
         Validates that the winner is included in the "players" list.
         """
-        players = data['players']
-        winner = data['winner'] if 'winner' in data else None
+        players = data.get("players", [])
+        winner = data.get("winner", None)
+
+        # handles the case of missing "players" field, for a partial request.
+        if not players:
+            return data
+
         if winner and winner not in players:
             raise serializers.ValidationError("Winner must be included in the players list.")
         return data
