@@ -77,8 +77,8 @@ class StatSerializer(serializers.ModelSerializer):
         """
         Validates that the player is included in the Game.
         """
-        player = data['player']
-        game = data['game'] if 'game' in data else None
+        player = data.get("player")
+        game = data.get("game", None)
         if game and player not in game.players.all():
             raise serializers.ValidationError("Player must be included in the game's players list.")
         return data
