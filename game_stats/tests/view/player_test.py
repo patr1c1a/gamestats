@@ -64,7 +64,7 @@ class PlayerViewsTest(TestCase):
 
     def test_update_player(self):
         """
-        Tests updating a specific player using the /players/<int:pk>/ endpoint.
+        Tests PATCH to /players/<int:pk>/ endpoint by updating a specific player.
         """
         updated_data = {"nickname": "player_view_test_nickname_changed"}
         response = self.client.patch(
@@ -80,7 +80,7 @@ class PlayerViewsTest(TestCase):
 
     def test_delete_player(self):
         """
-        Tests deleting a specific player using the /players/<int:pk>/ endpoint.
+        Tests DELETE to /players/<int:pk>/ endpoint by deleting a specific player.
         """
         response = self.client.delete(reverse("player-by-id", args=[self.player2.id]))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

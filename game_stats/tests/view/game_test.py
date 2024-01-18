@@ -62,7 +62,7 @@ class GameViewsTest(TestCase):
 
 	def test_update_game(self):
 		"""
-		Tests updating a specific game using the /games/<int:pk>/ endpoint.
+		Tests PATCH to /games/<int:pk>/ endpoint by updating a specific game.
 		"""
 		updated_data = {"winner": self.player2.id}
 		response = self.client.patch(reverse("game-by-id", args=[self.game1.id]), data=updated_data, format="json")
@@ -74,7 +74,7 @@ class GameViewsTest(TestCase):
 
 	def test_delete_game(self):
 		"""
-		Tests deleting a specific game using the /games/<int:pk>/ endpoint.
+		Tests DELETE to /games/<int:pk>/ endpoint by deleting a specific game.
 		"""
 		response = self.client.delete(reverse("game-by-id", args=[self.game1.id]))
 		self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
