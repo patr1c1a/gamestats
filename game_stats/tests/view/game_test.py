@@ -11,7 +11,7 @@ class GameViewsTest(TestCase):
 		"""
 		Creates test data. Logs in as an admin (is_staff=True) user.
 		"""
-		self.user1 = User.objects.create(username="test_user1", password="test_password", is_staff="True")
+		self.user1 = User.objects.create(username="test_user1", password="test_password", is_staff=True)
 		self.user2 = User.objects.create(username="test_user2", password="test_password")
 		self.player1 = Player.objects.create(user=self.user1, nickname="game_view_test_player1")
 		self.player2 = Player.objects.create(user=self.user2, nickname="game_view_test_player2")
