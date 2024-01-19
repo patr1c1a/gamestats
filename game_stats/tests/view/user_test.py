@@ -36,6 +36,7 @@ class UserViewsTest(TestCase):
 		"""
 		response = self.client.get(reverse("user-by-id", args=[self.user1.id]), format="json")
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.data["username"], self.user1.username)
 
 	def test_get_user_no_trailing_slash(self):
 		"""
@@ -43,6 +44,7 @@ class UserViewsTest(TestCase):
 		"""
 		response = self.client.get(f"/users/{self.user1.id}")
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.data["username"], self.user1.username)
 
 	def test_user_registration_success(self):
 		"""

@@ -44,6 +44,7 @@ class GameViewsTest(TestCase):
 		"""
 		response = self.client.get(reverse("game-by-id", args=[self.game1.id]), format="json")
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.data["id"], self.game1.id)
 
 	def test_get_game_no_trailing_slash(self):
 		"""
@@ -51,6 +52,7 @@ class GameViewsTest(TestCase):
 		"""
 		response = self.client.get(f"/games/{self.game1.id}")
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.data["id"], self.game1.id)
 
 	def test_create_game(self):
 		"""

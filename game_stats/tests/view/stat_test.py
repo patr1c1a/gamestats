@@ -58,6 +58,7 @@ class StatViewsTest(TestCase):
 		"""
 		response = self.client.get(f"/stats/{self.stat1.id}")
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.data["id"], self.stat1.id)
 
 	def test_create_stat(self):
 		"""
