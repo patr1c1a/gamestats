@@ -10,7 +10,6 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from .renderers import CustomCSVRenderer
 
-# TODO: add tests for POST, DELETE, PUT, PATCH
 
 class CustomPagination(PageNumberPagination):
     """
@@ -34,6 +33,7 @@ class CustomPagination(PageNumberPagination):
 class PlayerListCreate(generics.ListCreateAPIView):
     """
     Allows players to be listed or created.
+    TODO: user can only associate a player to themselves. Admins can associate players to any user.
     """
     queryset = Player.objects.all().order_by("id")
     serializer_class = PlayerSerializer
@@ -43,6 +43,7 @@ class PlayerListCreate(generics.ListCreateAPIView):
 class PlayerRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
     Allows a single player to be viewed, updated or deleted.
+    TODO: Only admins or user associated with the player can PUT or PATCH.
     """
     queryset = Player.objects.all()
     serializer_class = PlayerSerializer
@@ -68,6 +69,7 @@ class GameListCreate(generics.ListCreateAPIView):
 class GameRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
     Allows a single game to be viewed, updated or deleted.
+    TODO: Only admins can PUT or PATCH.
     """
     queryset = Game.objects.all()
     serializer_class = GameSerializer
@@ -93,6 +95,7 @@ class StatListCreate(generics.ListCreateAPIView):
 class StatRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
     Allows a single stat to be viewed, updated or deleted.
+    TODO: Only admins can PUT or PATCH.
     """
     queryset = Stat.objects.all()
     serializer_class = StatSerializer
@@ -174,6 +177,7 @@ class UserListCreate(generics.ListCreateAPIView):
 class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
     Allows a single user to be retrieved, updated or deleted.
+    TODO: Only admins and logged in user can PUT or PATCH.
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
