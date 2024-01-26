@@ -52,7 +52,7 @@ class PlayerRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         """
         Only allow admin users to delete.
         """
-        if self.request.method == 'DELETE':
+        if self.request.method == "DELETE":
             return [IsAdminUser()]
         return []
 
@@ -69,7 +69,6 @@ class GameListCreate(generics.ListCreateAPIView):
 class GameRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
     Allows a single game to be viewed, updated or deleted.
-    TODO: Only admins can PUT or PATCH.
     """
     queryset = Game.objects.all()
     serializer_class = GameSerializer
@@ -78,7 +77,7 @@ class GameRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         """
         Only allow admin users to delete.
         """
-        if self.request.method == 'DELETE':
+        if self.request.method == "DELETE":
             return [IsAdminUser()]
         return []
 
@@ -95,7 +94,6 @@ class StatListCreate(generics.ListCreateAPIView):
 class StatRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
     Allows a single stat to be viewed, updated or deleted.
-    TODO: Only admins can PUT or PATCH.
     """
     queryset = Stat.objects.all()
     serializer_class = StatSerializer
@@ -104,7 +102,7 @@ class StatRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         """
         Only allow admin users to delete.
         """
-        if self.request.method == 'DELETE':
+        if self.request.method == "DELETE":
             return [IsAdminUser()]
         return []
 
@@ -126,10 +124,10 @@ class StatRankingView(APIView):
 
         # Flatten the player data and remove unused game data
         for item in data:
-            item['player'] = item['player']['nickname']
-            item.pop('id', None)
-            item.pop('creation_date', None)
-            item.pop('game', None)
+            item["player"] = item["player"]["nickname"]
+            item.pop("id", None)
+            item.pop("creation_date", None)
+            item.pop("game", None)
 
         return data if data else []
 
@@ -147,7 +145,7 @@ class StatRankingView(APIView):
         # CSV export
         elif request.accepted_renderer.format == "csv":
             response = Response(top_scores, content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="top_scores.csv"'
+            response["Content-Disposition"] = 'attachment; filename="top_scores.csv"'
             return response
 
         # Return JSON response for other cases
@@ -167,9 +165,9 @@ class UserListCreate(generics.ListCreateAPIView):
         Applies permissions according to the method used (GET: needs user to be authenticated, POST: users can be
         created by anyone).
         """
-        if self.request.method == 'GET':
+        if self.request.method == "GET":
             return [IsAdminUser()]
-        elif self.request.method == 'POST':
+        elif self.request.method == "POST":
             return [AllowAny()]
         return []
 
@@ -186,6 +184,6 @@ class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         """
         Only allow admin users to delete.
         """
-        if self.request.method == 'DELETE':
+        if self.request.method == "DELETE":
             return [IsAdminUser()]
         return []
