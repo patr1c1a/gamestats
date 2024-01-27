@@ -1,11 +1,11 @@
 from .models import Player, Stat, Game
 from .serializers import PlayerSerializer, StatSerializer, GameSerializer, UserSerializer
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAdminUser
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from .renderers import CustomCSVRenderer
@@ -75,11 +75,21 @@ class GameRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
     def get_permissions(self):
         """
-        Only allow admin users to delete.
+        Only allow admin users to delete, put or patch.
         """
-        if self.request.method == "DELETE":
+        if self.request.method in ["DELETE", "PUT", "PATCH"]:
             return [IsAdminUser()]
         return []
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        """
+        Adds a custom message to the response content.
+        """
+        if response.status_code == 204 and request.method == "DELETE":
+            response.data = {"message": "Game deleted successfully"}
+        elif response.status_code == 200 and request.method in ["PUT", "PATCH"]:
+            response.data = {"message": "Game updated successfully"}
+        return super().finalize_response(request, response, *args, **kwargs)
 
 
 class StatListCreate(generics.ListCreateAPIView):
@@ -94,6 +104,7 @@ class StatListCreate(generics.ListCreateAPIView):
 class StatRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
     Allows a single stat to be viewed, updated or deleted.
+    TODO: only admins can put or patch.
     """
     queryset = Stat.objects.all()
     serializer_class = StatSerializer
