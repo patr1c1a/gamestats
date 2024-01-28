@@ -104,16 +104,16 @@ class StatListCreate(generics.ListCreateAPIView):
 class StatRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
     Allows a single stat to be viewed, updated or deleted.
-    TODO: only admins can put or patch.
+    TODO: unit tests to verify only admins can delete, put or patch.
     """
     queryset = Stat.objects.all()
     serializer_class = StatSerializer
 
     def get_permissions(self):
         """
-        Only allow admin users to delete.
+        Only allow admin users to delete, put or patch.
         """
-        if self.request.method == "DELETE":
+        if self.request.method in ["DELETE", "PUT", "PATCH"]:
             return [IsAdminUser()]
         return []
 
