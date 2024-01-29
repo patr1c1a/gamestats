@@ -76,12 +76,27 @@ class StatViewsTest(TestCase):
 		Tests PATCH to /stats/<int:pk>/ endpoint by updating a specific stat as an admin user.
 		"""
 		updated_data = {"score": 80}
-		response = self.admin_client.patch(reverse("stat-by-id", args=[self.stat1.id]), data=updated_data, format="json")
+		response = self.admin_client.patch(reverse("stat-by-id", args=[self.stat1.id]), data=updated_data,
+		                                   format="json")
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 		# Check database:
 		self.stat1.refresh_from_db()
 		self.assertEqual(self.stat1.score, 80)
+
+	def test_update_stat_as_non_admin(self):
+		"""
+        Tests PATCH to /stats/<int:pk>/ endpoint is not permitted to a non-admin user.
+        """
+		updated_data = {"score": 80}
+		response = self.non_admin_client.patch(reverse("stat-by-id", args=[self.stat1.id]), data=updated_data,
+		                                       format="json")
+		self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+		# Check that the stat wasn't updated:
+		self.stat1.refresh_from_db()
+		self.assertEqual(self.stat1.score, 10)
+
 
 	def test_delete_stat_as_admin(self):
 		"""
@@ -93,3 +108,17 @@ class StatViewsTest(TestCase):
 		# Check database:
 		with self.assertRaises(Stat.DoesNotExist):
 			Stat.objects.get(id=self.stat1.id)
+
+	def test_delete_stat_as_non_admin(self):
+		"""
+		Tests DELETE to /stats/<int:pk>/ endpoint is not permitted to a non-admin user.
+		"""
+		response = self.non_admin_client.delete(reverse("stat-by-id", args=[self.stat1.id]))
+		self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+		# Check database:
+		try:
+			stat1 = Stat.objects.get(id=self.stat1.id)
+		except Stat.DoesNotExist:
+			stat1 = None
+		self.assertIsNotNone(stat1, "Stat should still exist after deletion attempt.")
