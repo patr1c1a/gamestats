@@ -97,7 +97,6 @@ class StatViewsTest(TestCase):
 		self.stat1.refresh_from_db()
 		self.assertEqual(self.stat1.score, 10)
 
-
 	def test_delete_stat_as_admin(self):
 		"""
 		Tests DELETE to /stats/<int:pk>/ endpoint by deleting a specific stat as an admin user.

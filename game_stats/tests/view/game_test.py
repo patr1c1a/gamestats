@@ -21,9 +21,9 @@ class GameViewsTest(TestCase):
 		self.game2 = Game.objects.create()
 		self.game2.players.set([])
 
-		self.access_token = str(AccessToken.for_user(self.admin_user))
+		self.admin_access_token = str(AccessToken.for_user(self.admin_user))
 		self.admin_client = APIClient()
-		self.admin_client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+		self.admin_client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.admin_access_token}')
 		self.non_admin_access_token = str(AccessToken.for_user(self.non_admin_user))
 		self.non_admin_client = APIClient()
 		self.non_admin_client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.non_admin_access_token}')
