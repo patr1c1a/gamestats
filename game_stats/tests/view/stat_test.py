@@ -22,7 +22,7 @@ class StatViewsTest(TestCase):
 
 		self.access_token = str(AccessToken.for_user(self.user1))
 		self.client = APIClient()
-		self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+		self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.access_token}")
 
 	def test_get_stats(self):
 		"""
@@ -45,12 +45,12 @@ class StatViewsTest(TestCase):
 		"""
 		response = self.client.get(reverse("stat-by-id", args=[self.stat1.id]), format="json")
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
-		self.assertEqual(response.data['player']['id'], self.player1.id)
-		self.assertEqual(response.data['score'], self.stat1.score)
+		self.assertEqual(response.data["player"]["id"], self.player1.id)
+		self.assertEqual(response.data["score"], self.stat1.score)
 		# Check date
-		self.assertEqual(response.data['creation_date'][:10], str(self.stat1.creation_date)[:10])
+		self.assertEqual(response.data["creation_date"][:10], str(self.stat1.creation_date)[:10])
 		# Check time
-		self.assertEqual(response.data['creation_date'][11:19], str(self.stat1.creation_date)[11:19])
+		self.assertEqual(response.data["creation_date"][11:19], str(self.stat1.creation_date)[11:19])
 
 	def test_get_stat_no_trailing_slash(self):
 		"""
