@@ -104,7 +104,6 @@ class StatListCreate(generics.ListCreateAPIView):
 class StatRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     """
     Allows a single stat to be viewed, updated or deleted.
-    TODO: unit tests to verify only admins can delete, put or patch.
     """
     queryset = Stat.objects.all()
     serializer_class = StatSerializer

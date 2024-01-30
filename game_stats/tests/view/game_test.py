@@ -9,7 +9,7 @@ from game_stats.models import Game, Player, User
 class GameViewsTest(TestCase):
 	def setUp(self):
 		"""
-		Creates test data. Logs in as an admin (is_staff=True) user.
+		Creates test data.
 		"""
 		self.admin_user = User.objects.create(username="test_user1", password="test_password", is_staff=True)
 		self.non_admin_user = User.objects.create(username="test_user2", password="test_password", is_staff=False)
