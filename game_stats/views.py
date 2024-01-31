@@ -56,6 +56,16 @@ class PlayerRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             return [IsAdminUser()]
         return []
 
+    def finalize_response(self, request, response, *args, **kwargs):
+        """
+        Adds a custom message to the response content.
+        """
+        if response.status_code == 204 and request.method == "DELETE":
+            response.data = {"message": "Player deleted successfully"}
+        elif response.status_code == 200 and request.method in ["PUT", "PATCH"]:
+            response.data = {"message": "Player updated successfully"}
+        return super().finalize_response(request, response, *args, **kwargs)
+
 
 class GameListCreate(generics.ListCreateAPIView):
     """
@@ -115,6 +125,16 @@ class StatRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         if self.request.method in ["DELETE", "PUT", "PATCH"]:
             return [IsAdminUser()]
         return []
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        """
+        Adds a custom message to the response content.
+        """
+        if response.status_code == 204 and request.method == "DELETE":
+            response.data = {"message": "Stat deleted successfully"}
+        elif response.status_code == 200 and request.method in ["PUT", "PATCH"]:
+            response.data = {"message": "Stat updated successfully"}
+        return super().finalize_response(request, response, *args, **kwargs)
 
 
 class StatRankingView(APIView):
@@ -197,3 +217,13 @@ class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         if self.request.method == "DELETE":
             return [IsAdminUser()]
         return []
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        """
+        Adds a custom message to the response content.
+        """
+        if response.status_code == 204 and request.method == "DELETE":
+            response.data = {"message": "User deleted successfully"}
+        elif response.status_code == 200 and request.method in ["PUT", "PATCH"]:
+            response.data = {"message": "User updated successfully"}
+        return super().finalize_response(request, response, *args, **kwargs)
