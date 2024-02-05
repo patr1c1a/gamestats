@@ -9,7 +9,7 @@ class PlayerSerializerTest(TestCase):
         """
         Tests that a player created with a valid nickname is valid.
         """
-        user = User.objects.create(username='test_user1', password='test_password')
+        user = User.objects.create(username="test_user1", password="test_password")
         data = {"user": user.id, "nickname": "test_player"}
         serializer = PlayerSerializer(data=data)
         self.assertTrue(serializer.is_valid())
@@ -18,7 +18,7 @@ class PlayerSerializerTest(TestCase):
         """
         Tests that a player created with an invalid nickname raises an error.
         """
-        user = User.objects.create(username='test_user2', password='test_password')
+        user = User.objects.create(username="test_user2", password="test_password")
         data = {"user": user.id, "nickname": "test player"}
         serializer = PlayerSerializer(data=data)
         self.assertFalse(serializer.is_valid())
